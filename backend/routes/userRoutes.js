@@ -1,13 +1,16 @@
 const router = require('express').Router();
 const authMiddleware = require('../middleware/auth');
-const { getProfile, updateProfile, deleteAccount, getAllUsers } = require('../controllers/userController');
+const {
+  getProfile,
+  updateProfile,
+  deleteAccount,
+  getAllUsers
+} = require('../controllers/userController');
 
-// All routes below require a valid JWT
-router.use(authMiddleware);
-
-router.get('/profile', getProfile);
-router.put('/profile', updateProfile);
-router.delete('/profile', deleteAccount);
-router.get('/all', getAllUsers);
+// ✅ authMiddleware explicitly added to EACH route
+router.get('/profile', authMiddleware, getProfile);
+router.put('/profile', authMiddleware, updateProfile);
+router.delete('/profile', authMiddleware, deleteAccount);
+router.get('/all', authMiddleware, getAllUsers);
 
 module.exports = router;
